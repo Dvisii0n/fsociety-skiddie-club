@@ -1,0 +1,13 @@
+<div class="message">
+    <p><%= msg.title %></p>
+    <% if (memberStatus === 'guest') {%>
+        <p>by anonymous</p>
+        
+        <%
+
+    } else {%>
+        <p>by <%= msg.author %></p>
+        <%} %>
+    <p><%= msg.body %></p>
+    <p><%= msg.date_created %></p>
+</div>
