@@ -1,28 +1,29 @@
 import passport from "passport";
-import { createUser } from "../db/queries.js";
+import queries from "../db/queries.js";
 import bcrypt from "bcryptjs";
 import { matchedData, validationResult } from "express-validator";
+
 async function signUpUser(req, res, next) {
+	const SALT_VALUE = 10;
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		res.render("signup", { errors: errors.array() });
 		return;
 	}
 
-	const SALT_VALUE = 10;
 	try {
 		const { firstname, lastname, username, password } = matchedData(req);
 		const hashedPassword = await bcrypt.hash(password, SALT_VALUE);
-		await createUser(firstname, lastname, username, hashedPassword);
+		await queries.createUser(firstname, lastname, username, hashedPassword);
 		res.redirect("/login");
 	} catch (err) {
 		next(err);
 	}
 }
-
 const logInUser = passport.authenticate("local", {
 	successRedirect: "/",
 	failureRedirect: "/login",
+	failureMessage: true,
 });
 
 async function logOutUser(req, res, next) {
@@ -36,11 +37,12 @@ async function logOutUser(req, res, next) {
 
 async function getIndex(req, res, next) {
 	try {
-		if (!req.user) {
+		if (!req.isAuthenticated()) {
 			res.redirect("login");
 			return;
 		}
-		res.render("index");
+		const userMessages = await queries.getAllMessages();
+		res.render("index", { userMessages: userMessages });
 	} catch (err) {
 		next(err);
 	}
@@ -56,10 +58,42 @@ async function getSignup(req, res, next) {
 
 async function getLogin(req, res, next) {
 	try {
+		const sessionMessages = req.session.messages;
+		if (sessionMessages) {
+			const messageSet = new Set();
+			sessionMessages.forEach((msg) => {
+				messageSet.add(msg);
+			});
+			req.session.messages = [];
+			res.render("login", { failureMessages: Array.from(messageSet) });
+			return;
+		}
+
 		res.render("login");
 	} catch (err) {
 		next(err);
 	}
 }
+async function joinClub(req, res, next) {
+	try {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			res.redirect("/");
+			return;
+		}
 
-export { signUpUser, logInUser, logOutUser, getIndex, getSignup, getLogin };
+		await queries.updateMemberStatus(req.user.id);
+		res.redirect("/");
+	} catch (err) {
+		next(err);
+	}
+}
+export {
+	signUpUser,
+	logInUser,
+	logOutUser,
+	getIndex,
+	getSignup,
+	getLogin,
+	joinClub,
+};
