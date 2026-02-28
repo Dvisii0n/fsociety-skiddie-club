@@ -15,4 +15,23 @@ async function findUserByUsername(username) {
 	return rows[0];
 }
 
-export { createUser, findUserByUsername };
+async function getAllMessages() {
+	const { rows } = await pool.query(
+		"SELECT username AS author, title, body, date_created FROM messages JOIN users ON messages.user_id = users.id",
+	);
+
+	return rows;
+}
+
+async function updateMemberStatus(userId) {
+	await pool.query("UPDATE users SET member_status = 'member' WHERE id = $1", [
+		userId,
+	]);
+}
+
+export default {
+	createUser,
+	findUserByUsername,
+	getAllMessages,
+	updateMemberStatus,
+};
