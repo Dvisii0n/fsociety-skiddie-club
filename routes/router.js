@@ -8,7 +8,7 @@ import {
 	getLogin,
 	joinClub,
 } from "../controllers/controllers.js";
-import { validatePasscode, validateSignUp } from "../vallidators/validators.js";
+import { validatePasscode, validateSignUp } from "../validators/validators.js";
 
 const router = new Router();
 
