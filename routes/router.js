@@ -6,8 +6,9 @@ import {
 	getIndex,
 	getSignup,
 	getLogin,
+	joinClub,
 } from "../controllers/controllers.js";
-import { validateSignUp } from "../vallidators/validators.js";
+import { validatePasscode, validateSignUp } from "../vallidators/validators.js";
 
 const router = new Router();
 
@@ -22,5 +23,9 @@ router.get("/login", getLogin);
 router.post("/login", logInUser);
 
 router.get("/logout", logOutUser);
+
+router.post("/join", validatePasscode, joinClub);
+
+//TODO - validate and post messages
 
 export default router;
