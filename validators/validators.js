@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import queries from "../db/queries.js";
 
 const SUPER_SECRET_PASSCODE = "mrrobot";
@@ -72,4 +72,17 @@ const validatePasscode = [
 		}),
 ];
 
-export { validateSignUp, validatePasscode };
+const validateMessage = [
+	body("title")
+		.exists()
+		.isLength({ min: defaultMin, max: defaultMax })
+		.matches(/^[A-Za-z0-9 .,'!&?]+$/),
+	body("body")
+		.exists()
+		.isLength({ min: defaultMin, max: 300 })
+		.matches(/^[A-Za-z0-9 .,'!&?]+$/),
+];
+
+const validateId = [param("id").exists().trim().isInt({ min: 1 })];
+
+export { validateSignUp, validatePasscode, validateMessage, validateId };
