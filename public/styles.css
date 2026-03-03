@@ -13,3 +13,8 @@ form {
 	gap: 8px;
 	max-width: 200px;
 }
+
+textarea {
+	resize: none;
+	height: 70px;
+}
