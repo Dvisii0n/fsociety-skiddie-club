@@ -41,6 +41,7 @@ async function getIndex(req, res, next) {
 			res.redirect("login");
 			return;
 		}
+
 		const userMessages = await queries.getAllMessages();
 		res.render("index", { userMessages: userMessages });
 	} catch (err) {
@@ -76,6 +77,11 @@ async function getLogin(req, res, next) {
 }
 async function joinClub(req, res, next) {
 	try {
+		if (!req.isAuthenticated) {
+			res.send(401);
+			return;
+		}
+
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			res.redirect("/");
@@ -88,6 +94,52 @@ async function joinClub(req, res, next) {
 		next(err);
 	}
 }
+
+async function postMessage(req, res, next) {
+	try {
+		if (!req.isAuthenticated) {
+			res.send(401);
+			return;
+		}
+
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			console.log(errors.array());
+			res.redirect("/");
+			return;
+		}
+
+		const { title, body } = matchedData(req);
+		await queries.createMessage(req.user.id, title, body);
+
+		res.redirect("/");
+	} catch (err) {
+		next(err);
+	}
+}
+
+async function deleteMessage(req, res, next) {
+	try {
+		if (!req.isAuthenticated) {
+			res.send(401);
+			return;
+		}
+
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			res.redirect("/");
+			return;
+		}
+
+		const { id } = matchedData(req);
+		await queries.deleteMessage(id);
+
+		res.send(200);
+	} catch (err) {
+		next(err);
+	}
+}
+
 export {
 	signUpUser,
 	logInUser,
@@ -96,4 +148,6 @@ export {
 	getSignup,
 	getLogin,
 	joinClub,
+	postMessage,
+	deleteMessage,
 };
