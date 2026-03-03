@@ -7,8 +7,16 @@ import {
 	getSignup,
 	getLogin,
 	joinClub,
+	postMessage,
+	deleteMessage,
 } from "../controllers/controllers.js";
-import { validatePasscode, validateSignUp } from "../validators/validators.js";
+
+import {
+	validateId,
+	validateMessage,
+	validatePasscode,
+	validateSignUp,
+} from "../validators/validators.js";
 
 const router = new Router();
 
@@ -26,6 +34,8 @@ router.get("/logout", logOutUser);
 
 router.post("/join", validatePasscode, joinClub);
 
-//TODO - validate and post messages
+router.post("/postMessage", validateMessage, postMessage);
+
+router.delete("/deleteMessage/:id", validateId, deleteMessage);
 
 export default router;
