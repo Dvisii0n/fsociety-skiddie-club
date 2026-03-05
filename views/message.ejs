@@ -1,14 +1,16 @@
-<div class="message">
-	<p><%= msg.title %></p>
-	<% if (memberStatus === 'guest' && msg.author !== currentUsername) {%>
-	<p>by anonymous</p>
-	<%
+<div class="wrapper">
+	<div class="message">
+		<p class="messageTitle"><%= msg.title %></p>
+		<% if (memberStatus === 'guest' && msg.author !== currentUsername) {%>
+		<p class="messageAuthor">by anonymous</p>
+		<%
     } else {%>
-	<p>by <%= msg.author %></p>
-	<%} %>
-	<p><%= msg.body %></p>
-	<p><%= msg.date_created %></p>
-	<% if (memberStatus === 'admin') {%>
-	<button onclick="deleteMessage('<%= msg.id %>')" class="deleteMessage">Delete message</button>
-	<%} %>
+		<p class="messageAuthor">by <%= msg.author %></p>
+		<%} %>
+		<p class="messageBody"><%= msg.body %></p>
+		<p class="messageDate"><%= new Date(msg.date_created).toLocaleString('en-GB') %></p>
+		<% if (memberStatus === 'admin') {%>
+		<button class='deleteButton' onclick="deleteMessage('<%= msg.id %>')" class="deleteMessage">Delete</button>
+		<%} %>
+	</div>
 </div>

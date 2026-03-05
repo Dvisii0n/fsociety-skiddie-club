@@ -1,10 +1,45 @@
 body {
 	background-color: black;
+	height: 100vh;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 25px;
+}
+
+h1 {
+	color: red;
+}
+
+.error {
+	color: red;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: red;
+}
+
+dialog {
+	border: 1px solid red;
+}
+
+form,
+dialog,
+input,
+textarea {
+	background-color: black;
 	color: white;
 }
 
-.message {
-	border: 1px solid white;
+input,
+textarea {
+	border: 1px solid red;
 }
 
 form {
@@ -17,4 +52,85 @@ form {
 textarea {
 	resize: none;
 	height: 70px;
+}
+
+.navbar {
+	display: flex;
+	align-items: center;
+	justify-content: end;
+	background-color: black;
+	padding: 12px;
+	gap: 10px;
+}
+
+.indexImg {
+	max-width: 25%;
+	height: auto;
+}
+
+@media (max-width: 1200px) {
+	.indexImg {
+		max-width: 40%;
+		height: auto;
+	}
+}
+
+@media (max-width: 500px) {
+	.indexImg {
+		max-width: 100%;
+		height: auto;
+	}
+}
+
+.wrapper {
+	background: linear-gradient(to right, black, red, black);
+	padding-bottom: 2px;
+}
+
+.userMessages {
+	padding-bottom: 50px;
+}
+
+.message {
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	max-width: 400px;
+	background-color: black;
+}
+
+.messageTitle {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.messageBody {
+	word-break: break-all;
+}
+.messageAuthor,
+.messageDate,
+.navSpan {
+	color: rgba(255, 255, 255, 0.192);
+}
+
+.messageDate {
+	align-self: end;
+}
+
+button {
+	cursor: pointer;
+	padding: 5px;
+	background-color: black;
+	color: red;
+	border: 1px solid red;
+}
+
+.deleteButton {
+	align-self: end;
+}
+
+button:hover {
+	background-color: red;
+	color: white;
 }

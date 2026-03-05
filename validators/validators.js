@@ -72,15 +72,23 @@ const validatePasscode = [
 		}),
 ];
 
+const validationRegex = /^[A-Za-z0-9 .,'!&?\r\n]+$/;
+
 const validateMessage = [
 	body("title")
 		.exists()
 		.isLength({ min: defaultMin, max: defaultMax })
-		.matches(/^[A-Za-z0-9 .,'!&?]+$/),
+		.withMessage("Title too long or too short")
+		.matches(validationRegex)
+		.withMessage("Title can only contain numbers or letters and punctuation"),
 	body("body")
 		.exists()
 		.isLength({ min: defaultMin, max: 300 })
-		.matches(/^[A-Za-z0-9 .,'!&?]+$/),
+		.withMessage("Message body is too long or too short")
+		.matches(validationRegex)
+		.withMessage(
+			"Message body can only contain numbers or letters and punctuation",
+		),
 ];
 
 const validateId = [param("id").exists().trim().isInt({ min: 1 })];

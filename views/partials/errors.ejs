@@ -1,5 +1,15 @@
+
+<style>
+    body {
+        background-color: black;
+    }
+
+    p {
+        color: red;
+    }
+</style>
 <div>
     <% errors.forEach((error) => { %>
-        <p><%= error.msg %></p>
+        <p class="error"><%= error.msg %></p>
     <%}) %>
 </div>

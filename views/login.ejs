@@ -9,8 +9,8 @@
 </head>
 
 <body>
-
-	<h1>please log in</h1>
+	<img src="/images/title.png" alt="fsociety">
+	<p>skiddie club</p>
 	<form action="/login" method="POST">
 		<label for="username">Username</label>
 		<input id="username" name="username" placeholder="Username" type="text" required />
@@ -20,7 +20,7 @@
 	</form>
 	<% if (locals.failureMessages) {%>
 	<% failureMessages.forEach((msg) => {%>
-	<p><%= msg %></p>
+	<p class="error"><%= msg %></p>
 	<%}) %>
 
 	<%} %>
